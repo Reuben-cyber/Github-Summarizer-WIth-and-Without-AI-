@@ -1,73 +1,39 @@
-<<<<<<< HEAD
 name: Daily GitHub Issue Priority Notifier
 
 on:
   schedule:
-    - cron: "30 11 * * *"   # 5:00 PM IST
+    - cron: '30 11 * * *'   # 5:00 PM IST (11:30 UTC)
   workflow_dispatch:
 
-=======
->>>>>>> 28669fc (Fix working directory for requirements.txt)
 jobs:
-  notify:
+  run-notifier:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ${{ github.workspace }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Show exact location (DEBUG)
-        run: |
-          echo "Workspace:"
-          pwd
-          echo "Files:"
-          ls -la
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.9"
+          python-version: '3.9'
 
-<<<<<<< HEAD
-      - name: Force enter repo root and verify files
+      - name: Show working directory (debug)
         run: |
-          echo "Workspace path:"
-          echo "$GITHUB_WORKSPACE"
-          cd "$GITHUB_WORKSPACE"
-          echo "Now inside:"
           pwd
-          echo "Files here:"
           ls -la
 
       - name: Install dependencies
-=======
-      - name: Install dependencies (GUARANTEED)
->>>>>>> 28669fc (Fix working directory for requirements.txt)
         run: |
-          cd "$GITHUB_WORKSPACE"
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
+          pip install -r requirements.txt
 
-<<<<<<< HEAD
-      - name: Run issue notifier
-=======
       - name: Run GitHub Issue Notifier
-        run: |
-          python main.py
->>>>>>> 28669fc (Fix working directory for requirements.txt)
         env:
           GITHUB_OWNER: ${{ secrets.G_OWNER }}
           GITHUB_REPO: ${{ secrets.G_REPO }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
-<<<<<<< HEAD
         run: |
-          cd "$GITHUB_WORKSPACE"
           python main.py
-=======
->>>>>>> 28669fc (Fix working directory for requirements.txt)
