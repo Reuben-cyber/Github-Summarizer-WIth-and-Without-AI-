@@ -1,8 +1,8 @@
-name: Daily GitHub Issue Priority Notifier
+name: Daily GitHub Issue Notifier
 
 on:
   schedule:
-    # 5:00 PM IST = 11:30 AM UTC
+    # 5 PM IST = 11:30 AM UTC
     - cron: "30 11 * * *"
   workflow_dispatch:
 
@@ -24,9 +24,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run GitHub Issue Notifier
+      - name: Run notifier
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_OWNER: ${{ secrets.GITHUB_OWNER }}
           GITHUB_REPO: ${{ secrets.GITHUB_REPO }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
@@ -34,4 +33,3 @@ jobs:
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
         run: |
           python main.py
-
