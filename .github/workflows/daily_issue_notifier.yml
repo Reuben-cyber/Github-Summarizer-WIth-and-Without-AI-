@@ -2,7 +2,7 @@ name: Daily GitHub Issue Priority Notifier
 
 on:
   schedule:
-    - cron: "30 11 * * *" # 5:00 PM IST
+    - cron: "30 11 * * *" # 5 PM IST
   workflow_dispatch:
 
 jobs:
@@ -10,26 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.9"
 
-      - name: Debug and verify files
+      - name: Show workspace contents (ABSOLUTE)
         run: |
-          python - <<EOF
-          import os
-          print("Current working directory:")
-          print(os.getcwd())
-          print("\nFiles in current directory:")
-          for f in os.listdir("."):
-              print(" -", f)
-          EOF
+          echo "GITHUB_WORKSPACE = $GITHUB_WORKSPACE"
+          ls -la $GITHUB_WORKSPACE
 
-      - name: Install dependencies
+      - name: Install dependencies (ABSOLUTE PATH)
         run: |
-          pip install -r ./requirements.txt
+          pip install -r $GITHUB_WORKSPACE/requirements.txt
 
       - name: Run issue notifier
         env:
@@ -39,4 +35,4 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
         run: |
-          python main.py
+          python $GITHUB_WORKSPACE/main.py
