@@ -14,8 +14,6 @@ Generates clear, readable summaries of issues
 
 Sends email alerts for HIGH-priority issues via Gmail SMTP
 
-Runs automatically on a daily schedule using GitHub Actions (cron-based execution)
-
 Operates without dependency on paid AI services
 
 AI-First Architecture (Currently Disabled)
@@ -35,8 +33,6 @@ Python
 GitHub REST API
 
 Gmail SMTP
-
-GitHub Actions (scheduled automation)
 
 Optional AI Integration (OpenAI / LLM-based — currently disabled)
 
