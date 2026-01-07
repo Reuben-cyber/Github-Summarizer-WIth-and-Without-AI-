@@ -2,7 +2,7 @@ name: Daily GitHub Issue Priority Notifier
 
 on:
   schedule:
-    - cron: "30 11 * * *" # 5 PM IST
+    - cron: "30 11 * * *"   # 5:00 PM IST
   workflow_dispatch:
 
 jobs:
@@ -18,14 +18,21 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Show workspace contents (ABSOLUTE)
+      - name: Force enter repo root and verify files
         run: |
-          echo "GITHUB_WORKSPACE = $GITHUB_WORKSPACE"
-          ls -la $GITHUB_WORKSPACE
+          echo "Workspace path:"
+          echo "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          echo "Now inside:"
+          pwd
+          echo "Files here:"
+          ls -la
 
-      - name: Install dependencies (ABSOLUTE PATH)
+      - name: Install dependencies
         run: |
-          pip install -r $GITHUB_WORKSPACE/requirements.txt
+          cd "$GITHUB_WORKSPACE"
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Run issue notifier
         env:
@@ -35,4 +42,5 @@ jobs:
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
         run: |
-          python $GITHUB_WORKSPACE/main.py
+          cd "$GITHUB_WORKSPACE"
+          python main.py
